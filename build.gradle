@@ -1,0 +1,141 @@
+buildscript {
+
+    ext {
+        slf4jVersion = '1.7.26'
+        itextVersion = '5.5.13.1'
+        jasperReportVersion = '6.12.2'
+        //jasperReportVersion = '6.9.0'
+
+        myRepos = {
+            mavenCentral()
+        }
+
+    }
+    repositories myRepos
+    dependencies {
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE'
+    }
+}
+
+println "Gradle Version: ${project.getGradle().getGradleVersion().toString()}"
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'demo'
+version = '0.0.1'
+sourceCompatibility = 1.8
+
+repositories ext.myRepos
+
+dependencyManagement {
+	imports { mavenBom 'org.springframework:spring-framework-bom:5.1.14.RELEASE' }
+}
+
+dependencies {
+    implementation fileTree(dir: 'jasperreport-fonts', include: ['*.jar'])
+
+    modules {
+        module("commons-logging:commons-logging") {
+            replacedBy("org.slf4j:jcl-over-slf4j")
+        }
+        module("log4j:log4j"){
+            replacedBy("org.slf4j:log4j-over-slf4j")
+        }
+    }
+
+    implementation("commons-io:commons-io:2.6")
+    implementation("commons-validator:commons-validator:1.6")
+    implementation("org.apache.commons:commons-lang3:3.9")
+    
+	implementation("net.sf.jasperreports:jasperreports:${jasperReportVersion}"){
+	   exclude group: 'com.lowagie', module: 'itext'
+	}
+	implementation("net.sf.jasperreports:jasperreports-metadata:${jasperReportVersion}")
+	implementation("net.sf.jasperreports:jasperreports-annotation-processors:${jasperReportVersion}")
+	implementation("com.adobe.xmp:xmpcore:5.1.3")
+	implementation("com.ibm.icu:icu4j:57.1")
+
+	
+	
+    implementation("com.itextpdf:itextpdf:${itextVersion}")
+    implementation("com.itextpdf:itext-pdfa:${itextVersion}")
+    //implementation("com.itextpdf:itext-xtra:${itextVersion}")
+    implementation("com.itextpdf:itext-asian:5.2.0")
+    
+    implementation("ch.qos.logback:logback-classic:1.2.3")
+    implementation("org.slf4j:slf4j-api:${slf4jVersion}")
+    implementation("org.slf4j:jcl-over-slf4j:${slf4jVersion}")
+    implementation("org.slf4j:jul-to-slf4j:${slf4jVersion}")
+    
+    testImplementation("junit:junit:4.13")
+}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs.addAll([
+             "-Xlint:all",
+             "-Xlint:-serial",
+             "-Xlint:-unchecked",
+             "-Xlint:-rawtypes",
+             "-Xlint:-cast",
+             "-parameters"
+        ])
+        
+        doFirst {
+            println "current JVM = ${System.properties['java.vendor']} (${System.properties['java.version']}) (${System.properties['java.home']})"
+            println "javac compiler flags => [$options.allCompilerArgs]"
+        }
+    }
+}
+
+
+test {
+    useJUnit()
+    maxHeapSize = '1G'
+}
+
+
+import java.util.concurrent.TimeUnit
+// Log timings per task.
+class TimingsListener implements TaskExecutionListener, BuildListener {
+    private long startTime
+    private timings = []
+
+    @Override
+    void beforeExecute(Task task) {
+        startTime = System.nanoTime()
+    }
+
+    @Override
+    void afterExecute(Task task, TaskState taskState) {
+        def ms = TimeUnit.MILLISECONDS.convert(System.nanoTime() - startTime, TimeUnit.NANOSECONDS);
+        timings.add([ms, task.path])
+        task.project.logger.warn "${task.path} took ${ms}ms"
+    }
+
+    @Override
+    void buildFinished(BuildResult result) {
+        println "Task timings:"
+        for (timing in timings) {
+            if (timing[0] >= 50) {
+                printf "%7sms  %s\n", timing
+            }
+        }
+    }
+
+    @Override
+    void buildStarted(Gradle gradle) {}
+
+    @Override
+    void projectsEvaluated(Gradle gradle) {}
+
+    @Override
+    void projectsLoaded(Gradle gradle) {}
+
+    @Override
+    void settingsEvaluated(Settings settings) {}
+}
+
+gradle.addListener new TimingsListener()

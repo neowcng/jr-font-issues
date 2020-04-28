@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fontFamilies>
+
+    <!-- check net.sf.jasperreports.engine.util.CharScriptsSet.includesCharacter(int codePoint) for the implementation-->
+    <fontSet name="AppFontSet">
+        <!-- check com.ibm.icu.lang.UScript for the full list -->
+        <family familyName="NotoSerif" primary="true">
+            <excludedScript>Han</excludedScript>
+            <excludedScript>Hans</excludedScript>
+            <excludedScript>Hant</excludedScript>
+            <excludedScript>Bopomofo</excludedScript>
+            <excludedScript>Katakana</excludedScript>
+            <excludedScript>Hiragana</excludedScript>
+            <excludedScript>Jpan</excludedScript>
+            <excludedScript>Hangul</excludedScript>
+        </family>
+        <!-- despite its name CJK tc, it actually contains all fonts for jp, sc, tc, kr -->
+        <family familyName="NotoSerifCJKtc">
+            <includedScript>Han</includedScript>
+            <includedScript>Hans</includedScript>
+            <includedScript>Hant</includedScript>
+            <includedScript>Bopomofo</includedScript>
+            <includedScript>Katakana</includedScript>
+            <includedScript>Hiragana</includedScript>
+            <includedScript>Jpan</includedScript>
+            <includedScript>Hangul</includedScript>
+        </family>
+        <!-- fallback list using HanaMin, mainly cater for CJK extension B/C/D/E/F/G -->
+        <family familyName="HanaMinA">
+            <includedScript>Han</includedScript>
+            <includedScript>Hans</includedScript>
+            <includedScript>Hant</includedScript>
+            <includedScript>Bopomofo</includedScript>
+            <includedScript>Katakana</includedScript>
+            <includedScript>Hiragana</includedScript>
+            <includedScript>Jpan</includedScript>
+            <includedScript>Hangul</includedScript>
+        </family>
+        <family familyName="HanaMinB">
+            <includedScript>Han</includedScript>
+            <includedScript>Hans</includedScript>
+            <includedScript>Hant</includedScript>
+            <includedScript>Bopomofo</includedScript>
+            <includedScript>Katakana</includedScript>
+            <includedScript>Hiragana</includedScript>
+            <includedScript>Jpan</includedScript>
+            <includedScript>Hangul</includedScript>
+        </family>
+        <family familyName="HanaMinPlus">
+            <includedScript>Han</includedScript>
+            <includedScript>Hans</includedScript>
+            <includedScript>Hant</includedScript>
+            <includedScript>Bopomofo</includedScript>
+            <includedScript>Katakana</includedScript>
+            <includedScript>Hiragana</includedScript>
+            <includedScript>Jpan</includedScript>
+            <includedScript>Hangul</includedScript>
+        </family>
+    </fontSet>
+    
+</fontFamilies>
