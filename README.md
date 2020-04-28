@@ -33,22 +33,27 @@ the text should be rendered by these fonts, by the following preferring order:
 which roughly translate to this css
 `font-family: 'Noto Serif', 'Noto Serif CJK TC', 'HanaMinA', 'HanaMinB', 'HanaMinPlus', serif`
 
+# actual output
+
 Inside the `docs/`, it contains the output and diagnosis
 You can use PDF-XChange Viewer to view the actual font specified
 https://www.tracker-software.com/product/pdf-xchange-viewer
 
 
-`jr-6-12-2-patched.pdf`
-![docs/jr-6-12-2-patched.png] 
+### [jr-6-12-2-patched.pdf](docs/jr-6-12-2-patched.pdf)
+![jr-6-12-2-patched.pdf](docs/jr-6-12-2-patched.png)
 you can see that the text are rendered by 3 different fonts
-abc -> Noto Serif
-𨋢 -> HanaMinA
-所有 -> Noto Serif CJK TC
 
-`jr-6-12-2-orig.pdf`
-![docs/jr-6-12-2-orig.png] 
-abc -> Noto Serif
-𨋢 所有 -> HanaMinA
+* abc -> Noto Serif
+* 𨋢 -> HanaMinA
+* 所有 -> Noto Serif CJK TC
+
+
+### [jr-6-12-2-orig.pdf](docs/jr-6-12-2-orig.pdf)
+![jr-6-12-2-orig.pdf](docs/jr-6-12-2-orig.png)
+
+* abc -> Noto Serif
+* 𨋢 所有 -> HanaMinA
 
 
 # Fonts copyrights
